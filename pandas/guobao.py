@@ -43,3 +43,25 @@ pd.merge(df, df2)
 newdf = pd.DataFrame({'count': grouped.size()}).reset_index()
 newdf.to_csv('out.csv', sep='\t', encoding='utf-8', index=False)
 print newdf
+
+#new example
+l = [['jack', 'male', '2002-12-25 00:00:00-06:39', 'abded_010_20170820.txt',10,'car'],
+ ['jack', 'male', '2002-12-25 00:00:00-06:39', 'abded_010_20170821.txt',18, 'car'],
+ ['rose', 'female', '2002-12-25 00:00:00-06:39', 'abded_010_20170821.txt',9, 'shopping']]
+
+ df = pd.DataFrame(l, columns = ['name', 'gender', 'birthdate', 'cert', 'score', 'hobit'])
+
+def try_derive_time(value, start, end):
+    try:
+        startIndex = value.rindex(start) + len(start)
+        endIndex = value.rindex(end)
+        return value[startIndex : endIndex]
+    except ValueError:
+        return '19700101'
+
+df.assign(cert_date = lambda x :(str(x['cert'])[str(x['cert']).rindex('_') : str(x['cert']).rindex('.')]))
+
+Group By:
+groupby output has the grouping columns as indicies, not columns,
+po_grouped_df = poagg_df.groupby(['EID','PCODE'], as_index=False)
+pd.merge(acc_df, pol_df, on=['EID','PCODE'], how='inner',suffixes=('_Acc','_Po'))
